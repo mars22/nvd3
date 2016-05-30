@@ -1,4 +1,4 @@
-/* nvd3 version 1.8.3 (https://github.com/novus/nvd3) 2016-04-26 */
+/* nvd3 version 1.8.3 (https://github.com/novus/nvd3) 2016-05-30 */
 (function(){
 
 // set up main nv object
@@ -226,35 +226,6 @@ nv.interactiveGuideline = function() {
                 var mouseY = d3mouse[1];
                 var subtractMargin = true;
                 var mouseOutAnyReason = false;
-                if (isMSIE) {
-                    /*
-                     D3.js (or maybe SVG.getScreenCTM) has a nasty bug in Internet Explorer 10.
-                     d3.mouse() returns incorrect X,Y mouse coordinates when mouse moving
-                     over a rect in IE 10.
-                     However, d3.event.offsetX/Y also returns the mouse coordinates
-                     relative to the triggering <rect>. So we use offsetX/Y on IE.
-                     */
-                    mouseX = d3.event.offsetX;
-                    mouseY = d3.event.offsetY;
-
-                    /*
-                     On IE, if you attach a mouse event listener to the <svg> container,
-                     it will actually trigger it for all the child elements (like <path>, <circle>, etc).
-                     When this happens on IE, the offsetX/Y is set to where ever the child element
-                     is located.
-                     As a result, we do NOT need to subtract margins to figure out the mouse X/Y
-                     position under this scenario. Removing the line below *will* cause
-                     the interactive layer to not work right on IE.
-                     */
-                    if(d3.event.target.tagName !== "svg") {
-                        subtractMargin = false;
-                    }
-
-                    if (d3.event.target.className.baseVal.match("nv-legend")) {
-                        mouseOutAnyReason = true;
-                    }
-
-                }
 
                 if(subtractMargin) {
                     mouseX -= margin.left;
